@@ -267,7 +267,8 @@ if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
      echo "# KEYBOARD CONFIGURATION FILE" > /etc/default/keyboard
      echo "# Consult the keyboard(5) manual page." >> /etc/default/keyboard
      echo "# XKBMODEL='pc105'" >> /etc/default/keyboard
-     echo "XKBLAYOUT='es'" >> /etc/default/keyboard
+     read -p "[*] Choose a keyboard layout.  en is english, es is spanish: " lang;
+     echo "XKBLAYOUT='$lang'" >> /etc/default/keyboard
      echo "XKBVARIANT='winkeys'" >> /etc/default/keyboard
      echo "XKBOPTIONS=''" >> /etc/default/keyboard
      echo "BACKSPACE='guess'" >> /etc/default/keyboard
