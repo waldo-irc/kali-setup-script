@@ -26,6 +26,7 @@ done
 echo "[*] Waldo Kali Linux Deluxe Setup Script!"
 echo "[*] Made special for my buddy Kawaxi to quickly setup his Kali Machine!!" #lazy bastard!
 echo "[*] Usage: $0 (-e)"
+echo "[*] Hit CTRL+C at anyime to exit the script"
 echo "[*] Hold on to your horses!  I hear they have plenty in Mexico"
 
 #update
@@ -40,6 +41,22 @@ if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
      echo "[*] If rest of script gives issues reboot machine before continuing."
 fi
 wait
+
+#change lock
+echo "[*] Setting up lock screen"
+if [ "$1" == "-e" ] ; then
+     CONDITION=Y
+else
+     read -p "Continue and install? Y/n: " CONDITION;
+fi
+if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
+     read -p "[*] Change sleep time.  Enter 0 to never sleep: " sett;
+     settings set org.gnome.desktop.session idle-delay "$sett"
+     echo "[*] Disabling Lock Screen"
+     gsettings set org.gnome.desktop.screensaver lock-enabled false
+fi
+wait
+
 
 #intall terminator
 echo "[*] Installing Terminator"
@@ -219,6 +236,71 @@ if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
 fi
 wait
 
+#install dropbox
+echo "[*] Installing Dropbox"
+if [ "$1" == "-e" ] ; then
+     CONDITION=Y
+else
+     read -p "Continue and install? Y/n: " CONDITION;
+fi
+if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
+     echo "[*] Downloading and installing"
+     cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86" | tar xzf -
+     rm ~/.dropbox-dist/VERSION
+     mv ~/.dropbox-dist/* /usr/bin
+     wait
+     echo "[*] Cleaning Up"
+     rm -R ~/.dropbox-dist/
+     echo "[*] Installed! Run with dropboxd"
+fi
+wait
+
+#install keyboard
+echo "[*] Installing Keyboard Settings"
+if [ "$1" == "-e" ] ; then
+     CONDITION=Y
+else
+     read -p "Continue and install? Y/n: " CONDITION;
+fi
+if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
+     echo "[*] Writing lines to file /etc/default/keyboard"
+     echo "# KEYBOARD CONFIGURATION FILE" > /etc/default/keyboard
+     echo "# Consult the keyboard(5) manual page." >> /etc/default/keyboard
+     echo "# XKBMODEL='pc105'" >> /etc/default/keyboard
+     echo "XKBLAYOUT='es'" >> /etc/default/keyboard
+     echo "XKBVARIANT='winkeys'" >> /etc/default/keyboard
+     echo "XKBOPTIONS=''" >> /etc/default/keyboard
+     echo "BACKSPACE='guess'" >> /etc/default/keyboard
+fi
+wait
+
+#adding bookmark entries
+echo "[*] Setting up Bookmarks"
+if [ "$1" == "-e" ] ; then
+     CONDITION=Y
+else
+     read -p "Continue and install? Y/n: " CONDITION;
+fi
+if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
+     read -p "!!!Enter the path of each directory you would like bookmarked - EX:/usr/share and a name for the bookmark (Hit Enter to Continue)";
+     echo "[*] 5 Entries max, more can be manually entered. (FTP, TFTP, HTML, and Root Dir / done by default."
+     echo file:/// / > ~/.config/gtk-3.0/bookmarks
+     echo file:///var/www/html html >> ~/.config/gtk-3.0/bookmarks
+     echo file:///tftpboot tftp >> ~/.config/gtk-3.0/bookmarks
+     read -p "[*] Enter the FTP user you created to create the FTP bookmark: " ftpuser;
+     echo file:///home/"$ftpuser" ftpd >> ~/.config/gtk-3.0/bookmarks
+     for a in $(seq 1 5); do
+          read -p "[*] Enter additional entries now EX:/usr/bin.  enter 'exit' when done: " loc;
+          if [ "$loc" == "exit" ]; then
+               break
+          else
+               read -p "[*] Enter a name for this bookmark entry EX: bin: " name;
+               echo file://"$loc" "$name" >> ~/.config/gtk-3.0/bookmarks
+          fi
+     done
+fi
+wait
+
 #install firefox extensions
 echo "[*] Installing TamperData, EditCookies, and FoxyProxy"
 echo "[*] Firefox will open to install each app, accept prompt and close (not restart) firefox to continue script."
@@ -235,18 +317,19 @@ if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
      wget https://addons.mozilla.org/firefox/downloads/latest/tamper-data/addon-966-latest.xpi
      firefox addon-966-latest.xpi
      wait
+     read -p "[*] Hit Enter to Continue";
      echo "[*] Installing FoxyProxy"
      wget https://addons.mozilla.org/firefox/downloads/file/400263/foxyproxy_standard-4.5.6-fx+sm+tb.xpi
      firefox foxyproxy_standard-4.5.6-fx+sm+tb.xpi
      wait
+     read -p "[*] Hit Enter to Continue";
      echo "[*] Installing Edit Cookies"
      wget https://addons.mozilla.org/firefox/downloads/latest/cookies-manager-plus/addon-92079-latest.xpi
      firefox addon-92079-latest.xpi
      wait
+     read -p "[*] Hit Enter to Continue";
      echo "[*] Cleaning up"
      rm -R ~/extensions
      wait
 fi
 wait
-
-
