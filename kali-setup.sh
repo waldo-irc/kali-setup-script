@@ -173,12 +173,17 @@ if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
      echo "[*] Create a new FTP User"
      read -p "[*] Username?: " newuser;
      useradd $newuser
-     echo "[*] Change password for new user"
+     echo "[*] Create a new password for $newuser"
      passwd $newuser
+     mkdir /home/$newuser
+     chown -R $newuser:$newuser /home/$newuser
      echo "[*] Creating /var/FTP"
      mkdir /var/ftp
      echo "[*] Binding newuser home directory to /var/ftp/$newuser"
+     mkdir /var/ftp/$newuser
      mount --bind /home/$newuser/ /var/ftp/$newuser/
+     echo "[*] Setting home as /var/ftp/$newuser for user $newuser"
+     sudo usermod -d /var/ftp/$newuser/ $newuser
      echo "[*] Getting VSFTPD Conf"
      git clone https://github.com/barthyala/vsftpd-conf.git
      mv vsftpd-conf/vsftpd.conf /etc/vsftpd.conf
@@ -201,7 +206,7 @@ if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
      echo "[*] Creating tftp directory in /tftpboot. Store files to transfer here"
      mkdir /tftpboot
      echo "[*] Transferring TFTP config"
-     git clone https://github/com/barthyala/tftp-conf.git
+     git clone https://github.com/barthyala/tftp-conf.git
      mv tftp-conf/atftpd /etc/default/
      wait
      echo "[*] Cleaning up"
@@ -272,6 +277,8 @@ if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
      echo "XKBVARIANT='winkeys'" >> /etc/default/keyboard
      echo "XKBOPTIONS=''" >> /etc/default/keyboard
      echo "BACKSPACE='guess'" >> /etc/default/keyboard
+     echo "[*] Restarting Keyboard Service to Enable New Settings"
+     udevadm trigger --subsystem-match=input --action=change
 fi
 wait
 
@@ -289,7 +296,7 @@ if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
      echo file:///var/www/html html >> ~/.config/gtk-3.0/bookmarks
      echo file:///tftpboot tftp >> ~/.config/gtk-3.0/bookmarks
      read -p "[*] Enter the FTP user you created to create the FTP bookmark: " ftpuser;
-     echo file:///home/"$ftpuser" ftpd >> ~/.config/gtk-3.0/bookmarks
+     echo file:///var/ftp/"$ftpuser" ftpd >> ~/.config/gtk-3.0/bookmarks
      for a in $(seq 1 5); do
           read -p "[*] Enter additional entries now EX:/usr/bin.  enter 'exit' when done: " loc;
           if [ "$loc" == "exit" ]; then
