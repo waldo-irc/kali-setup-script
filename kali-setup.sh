@@ -268,17 +268,12 @@ else
      read -p "Continue and install? Y/n: " CONDITION;
 fi
 if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
-     echo "[*] Writing lines to file /etc/default/keyboard"
-     echo "# KEYBOARD CONFIGURATION FILE" > /etc/default/keyboard
-     echo "# Consult the keyboard(5) manual page." >> /etc/default/keyboard
-     echo "# XKBMODEL='pc105'" >> /etc/default/keyboard
+     echo "[*] Setting Up Keyboard"
+     sudo apt-get install x11-xkb-utils -y
      read -p "[*] Choose a keyboard layout.  en is english, es is spanish: " lang;
-     echo "XKBLAYOUT='$lang'" >> /etc/default/keyboard
-     echo "XKBVARIANT='winkeys'" >> /etc/default/keyboard
-     echo "XKBOPTIONS=''" >> /etc/default/keyboard
-     echo "BACKSPACE='guess'" >> /etc/default/keyboard
-     echo "[*] Restarting Keyboard Service to Enable New Settings"
-     udevadm trigger --subsystem-match=input --action=change
+     setxkbmap $lang
+     echo "[*] Writing to BashRC for Persistence"
+     echo "setxkbmap $lang" >> ~/.bashrc
 fi
 wait
 
@@ -292,6 +287,7 @@ fi
 if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
      read -p "!!!Enter the path of each directory you would like bookmarked - EX:/usr/share and a name for the bookmark (Hit Enter to Continue)";
      echo "[*] 5 Entries max, more can be manually entered. (FTP, TFTP, HTML, and Root Dir / done by default."
+     mkdir ~/.config/gtk-3.0
      echo file:/// / > ~/.config/gtk-3.0/bookmarks
      echo file:///var/www/html html >> ~/.config/gtk-3.0/bookmarks
      echo file:///tftpboot tftp >> ~/.config/gtk-3.0/bookmarks
