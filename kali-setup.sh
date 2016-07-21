@@ -337,3 +337,5 @@ if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
      wait
 fi
 wait
+
+echo "[!!!!] Setup Completed!  Please reboot Kali to finish changes"
