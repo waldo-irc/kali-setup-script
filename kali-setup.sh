@@ -9,7 +9,7 @@ for arg; do
             echo "[*] Usage: $0 (-e)"
             echo "options:"
             echo "-h, --help                    show brief help"
-            echo "-e                            Express install - Bypasses all prompts and just installs the damn thing" #because if you're a typical Mexican you're extra lazy!
+            echo "-e                            Express install - Bypasses all prompts and just installs the damn thing"
             exit 0;;
         -e) echo "[*] Express Run!" ;;
         -*) echo "[*] Waldo Kali Linux Deluxe Setup Script!"
