@@ -287,7 +287,9 @@ fi
 if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
      read -p "!!!Enter the path of each directory you would like bookmarked - EX:/usr/share and a name for the bookmark (Hit Enter to Continue)";
      echo "[*] 5 Entries max, more can be manually entered. (FTP, TFTP, HTML, and Root Dir / done by default."
-     #mkdir ~/.config/gtk-3.0
+     if [ ! -d "/root/.config/gtk-3.0" ]; then
+          mkdir ~/.config/gtk-3.0
+     fi
      echo file:/// / > ~/.config/gtk-3.0/bookmarks
      echo file:///var/www/html html >> ~/.config/gtk-3.0/bookmarks
      echo file:///tftpboot tftp >> ~/.config/gtk-3.0/bookmarks
