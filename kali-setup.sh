@@ -277,15 +277,15 @@ echo "[*] Installing Keyboard Settings"
 if [ "$1" == "-e" ] ; then
      CONDITION=Y
 else
-     read -p "Continue and install? Y/n: " CONDITION;
+     read -p "Change to Spanish Keyboard? Y/n: " CONDITION;
 fi
 if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
      echo "[*] Setting Up Keyboard"
      sudo apt-get install x11-xkb-utils -y
-     read -p "[*] Choose a keyboard layout.  en is english, es is spanish: " lang;
-     setxkbmap $lang
+     #read -p "[*] Choose a keyboard layout.  en is english, es is spanish: " lang;
+     setxkbmap es
      echo "[*] Writing to BashRC for Persistence"
-     echo "setxkbmap $lang" >> ~/.bashrc
+     echo "setxkbmap es" >> ~/.bashrc
 fi
 wait
 
