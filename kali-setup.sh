@@ -5,11 +5,11 @@
 for arg; do
     case $arg in
         -h) echo "[*] Waldo Kali Linux Deluxe Setup Script!"
-            echo "[*] Made special for my buddy Kawaxi to quickly setup his Kali Machine!!" #lazy bastard!
+            echo "[*] Made special for my buddy Kawaxi to quickly setup his Kali Machine!!" 
             echo "[*] Usage: $0 (-e)"
             echo "options:"
             echo "-h, --help                    show brief help"
-            echo "-e                            Express install - Bypasses all prompts and just installs the damn thing" #because if you're a typical Mexican you're extra lazy!
+            echo "-e                            Express install - Bypasses all prompts and just installs the damn thing" 
             exit 0;;
         -e) echo "[*] Express Run!" ;;
         -*) echo "[*] Waldo Kali Linux Deluxe Setup Script!"
@@ -24,7 +24,7 @@ for arg; do
 done
 
 echo "[*] Waldo Kali Linux Deluxe Setup Script!"
-echo "[*] Made special for my buddy Kawaxi to quickly setup his Kali Machine!!" #lazy bastard!
+echo "[*] Made special for my buddy Kawaxi to quickly setup his Kali Machine!!" 
 echo "[*] Usage: $0 (-e)"
 echo "[*] Hit CTRL+C at anyime to exit the script"
 echo "[*] Hold on to your horses!  I hear they have plenty in Mexico"
@@ -106,7 +106,7 @@ else
      read -p "Continue and install? Y/n: " CONDITION;
 fi
 if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
-     sudo apt-get intall hexchat -y
+     sudo apt-get install hexchat -y
 fi
 wait
 
@@ -241,7 +241,7 @@ if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
 fi
 wait
 
-#install dropbox
+#install Dropbox
 echo "[*] Installing Dropbox"
 if [ "$1" == "-e" ] ; then
      CONDITION=Y
@@ -307,7 +307,7 @@ wait
 
 #install firefox extensions
 echo "[*] Installing TamperData, EditCookies, and FoxyProxy"
-echo "[*] Firefox will open to install each app, accept prompt and close (not restart) firefox to continue script."
+echo "[*] Please close Firefox before anything, it will open to install each app, accept prompt and close (not restart) firefox to continue script."
 if [ "$1" == "-e" ] ; then
      CONDITION=Y
 else
@@ -339,3 +339,5 @@ fi
 wait
 
 echo "[!!!!] Setup Completed!  Please reboot Kali to finish changes"
+echo "[*] Dont Forget to Run Dropbox  with dropboxd"
+
