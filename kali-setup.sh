@@ -106,7 +106,7 @@ else
      read -p "Continue and install? Y/n: " CONDITION;
 fi
 if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
-     sudo apt-get intall hexchat -y
+     sudo apt-get install hexchat -y
 fi
 wait
 
