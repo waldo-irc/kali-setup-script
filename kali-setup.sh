@@ -35,6 +35,7 @@ echo "[*] Updating System! (I reccomend this boy, not doing this == MISTAKE)"
 if [ "$1" == "-e" ] ; then
      CONDITION=Y
 elif [ "$1" == "-ex" ] ; then
+     echo "[*] Argument EX found, skipping update"
      CONDITION=N
 else
      read -p "Continue and install? Y/n: " CONDITION;
