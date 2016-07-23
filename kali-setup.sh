@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #Waldo's Kali Linux Setup Script!
 
 #Here we set up our options and arguments
