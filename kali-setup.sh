@@ -12,6 +12,7 @@ for arg; do
             echo "-e                            Express install - Bypasses all prompts and just installs the damn thing"
             exit 0;;
         -e) echo "[*] Express Run!" ;;
+        -ex) echo "[*] Express Run with no update!" ;;
         -*) echo "[*] Waldo Kali Linux Deluxe Setup Script!"
             echo "[*] Made special for my buddy Kawaxi to quickly setup his Kali Machine!!"
             echo "[*] Usage: $0 (-e)"
@@ -33,6 +34,8 @@ echo "[*] Hold on to your horses!  I hear they have plenty in Mexico"
 echo "[*] Updating System! (I reccomend this boy, not doing this == MISTAKE)"
 if [ "$1" == "-e" ] ; then
      CONDITION=Y
+elif [ "$1" == "-ex" ] ; then
+     CONDITION=N
 else
      read -p "Continue and install? Y/n: " CONDITION;
 fi
