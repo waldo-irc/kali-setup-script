@@ -321,7 +321,7 @@ wait
 
 #install firefox extensions
 echo "[*] Installing TamperData, EditCookies, and FoxyProxy"
-echo "[*] Firefox will open to install each app, accept prompt and close (not restart) firefox to continue script."
+echo "[*] Make sure Firefox is closed before continuing!  Firefox will open to install each app, accept prompt and close (not restart) firefox to continue script."
 if [ "$1" == "-e" ] ; then
      CONDITION=Y
 else
