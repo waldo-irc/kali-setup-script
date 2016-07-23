@@ -42,6 +42,18 @@ if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
 fi
 wait
 
+#change password
+echo "[*] Changing password"
+if [ "$1" == "-e" ] ; then
+     CONDITION=Y
+else
+     read -p "Continue? Y/n: " CONDITION;
+fi
+if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
+     passwd
+fi
+wait
+
 #change lock
 echo "[*] Setting up lock screen"
 if [ "$1" == "-e" ] ; then
@@ -341,3 +353,12 @@ fi
 wait
 
 echo "[!!!!] Setup Completed!  Please reboot Kali to finish changes"
+#reboot
+if [ "$1" == "-e" ] ; then
+     CONDITION=Y
+else
+     read -p "Reboot Now? Y/n: " CONDITION;
+fi
+if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
+     reboot
+fi
