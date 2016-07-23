@@ -5,7 +5,7 @@
 for arg; do
     case $arg in
         -h) echo "[*] Waldo Kali Linux Deluxe Setup Script!"
-            echo "[*] Made special for my buddy Kawaxi to quickly setup his Kali Machine!!" #lazy bastard!
+            echo "[*] Made special for my buddy Kawaxi to quickly setup his Kali Machine!!"
             echo "[*] Usage: $0 (-e)"
             echo "options:"
             echo "-h, --help                    show brief help"
@@ -25,7 +25,7 @@ for arg; do
 done
 
 echo "[*] Waldo Kali Linux Deluxe Setup Script!"
-echo "[*] Made special for my buddy Kawaxi to quickly setup his Kali Machine!!" #lazy bastard!
+echo "[*] Made special for my buddy Kawaxi to quickly setup his Kali Machine!!"
 echo "[*] Usage: $0 (-e)"
 echo "[*] Hit CTRL+C at anyime to exit the script"
 echo "[*] Hold on to your horses!  I hear they have plenty in Mexico"
