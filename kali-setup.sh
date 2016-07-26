@@ -94,7 +94,7 @@ else
      read -p "Continue and install? Y/n: " CONDITION;
 fi
 if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
-     git clone https://github.com/barthyala/tmux-conf.git
+     git clone https://github.com/waldo-irc/tmux-conf.git
      tmux=$(echo $HOME)
      mv tmux-conf/.tmux.conf $tmux
      echo "[*] Cleaning up"
@@ -201,7 +201,7 @@ if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
      echo "[*] Setting home as /var/ftp/$newuser for user $newuser"
      sudo usermod -d /var/ftp/$newuser/ $newuser
      echo "[*] Getting VSFTPD Conf"
-     git clone https://github.com/barthyala/vsftpd-conf.git
+     git clone https://github.com/waldo-irc/vsftpd-conf.git
      mv vsftpd-conf/vsftpd.conf /etc/vsftpd.conf
      wait
      echo "[*] Cleaning up"
@@ -222,7 +222,7 @@ if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
      echo "[*] Creating tftp directory in /tftpboot. Store files to transfer here"
      mkdir /tftpboot
      echo "[*] Transferring TFTP config"
-     git clone https://github.com/barthyala/tftp-conf.git
+     git clone https://github.com/waldo-irc/tftp-conf.git
      mv tftp-conf/atftpd /etc/default/
      wait
      echo "[*] Cleaning up"
@@ -238,7 +238,7 @@ else
      read -p "Continue and install? Y/n: " CONDITION;
 fi
 if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
-     git clone https://github.com/barthyala/Waldo-Enumeration.git
+     git clone https://github.com/waldo-irc/Waldo-Enumeration.git
      echo "[*] Moving to /usr/bin/"
      mv Waldo-Enumeration/wenum /usr/bin/
      echo "[*] Cleaning Up"
@@ -246,7 +246,7 @@ if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
      echo "[*] Finishing up"
      chmod +x /usr/bin/wenum
      wait
-     git clone https://github.com/barthyala/SMBScan.git
+     git clone https://github.com/waldo-irc/SMBScan.git
      echo "[*] Moving to /usr/bin/"
      mv SMBScan/wsmb /usr/bin/
      echo "[*] Cleaning Up"
