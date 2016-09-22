@@ -17,9 +17,9 @@ for arg; do
             echo "[*] Made special for my buddy Kawaxi to quickly setup his Kali Machine!!"
             echo "[*] Usage: $0 (-e)"
             echo "options:"
-            echo "-h, --help                    show brief help"
+            echo "-h, --help                    Show brief help"
             echo "-e                            Express install - Bypasses all prompts and just installs the damn thing"
-            echo "-ex                            Express install - Bypasses all prompts and just installs the damn thing (no updates)"
+            echo "-ex                           Express install - Bypasses all prompts and just installs the damn thing (no updates)"
             exit 0;;
         *)  dir=$arg ;; #This line is required to pass the target when given.  Gives anything given as an argument without a slash and passes it through to be used for the program.
     esac
