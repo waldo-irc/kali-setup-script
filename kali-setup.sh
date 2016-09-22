@@ -4,13 +4,6 @@
 #Here we set up our options and arguments
 for arg; do
     case $arg in
-        -h) echo "[*] Waldo Kali Linux Deluxe Setup Script!"
-            echo "[*] Made special for my buddy Kawaxi to quickly setup his Kali Machine!!"
-            echo "[*] Usage: $0 (-e)"
-            echo "options:"
-            echo "-h, --help                    show brief help"
-            echo "-e                            Express install - Bypasses all prompts and just installs the damn thing"
-            exit 0;;
         -e) echo "[*] Express Run!" ;;
         -ex) echo "[*] Express Run with no update!" ;;
         -*) echo "[*] Waldo Kali Linux Deluxe Setup Script!"
