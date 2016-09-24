@@ -1,4 +1,5 @@
 # kali-setup-script
+This script is intended to get new VMs of Kali up and running for Pentesting and CTFS in no time.
 
 Just download script and run!
 
