@@ -1,19 +1,36 @@
+
 #!/bin/bash
 #Waldo's Kali Linux Setup Script!
 
 #Here we set up our options and arguments
 for arg; do
     case $arg in
-        -e) echo "[*] Express Run!" 
-            if [ -z "$2" ]; then
-                 echo "[*] Must choose an IRC client (irssi/hexchat)"
-                 echo "[*] EX: ./kali-setup.sh -e irssi"
+        -d) echo "[*] Running with defaults" 
+            DEFAULTS="Y" ;;
+    esac
+done
+
+for arg; do
+    case $arg in
+        -e) echo "[*] Express Run!"
+            if [ "$2" == "irssi" ] || [ "$2" == "hexchat" ] && [ "$3" == "terminator" ] || [ "$3" == "tmux" ] && [ -z "$4" ] || [ "$4" == "-d" ]; then
+                 :
+            else
+                 echo "[*] ERROR!  Incorrect syntax!"
+                 echo "[*] Must choose an IRC client (irssi/hexchat) and a terminal multiplexer (tmux/terminator)"
+                 echo "[*] EX: ./kali-setup.sh -e irssi terminator"
+                 exit 0
             fi ;;
-        -ex) echo "[*] Express Run with no update!" 
-            if [ -z "$2" ]; then
-                 echo "[*] Must choose an IRC client (irssi/hexchat)"
-                 echo "[*] EX: ./kali-setup.sh -ex irssi"
+        -ex) echo "[*] Express Run with no update!"
+            if [ "$2" == "irssi" ] || [ "$2" == "hexchat" ] && [ "$3" == "terminator" ] || [ "$3" == "tmux" ] && [ -z "$4" ] || [ "$4" == "-d" ]; then
+                      :
+            else
+                 echo "[*] ERROR!  Incorrect syntax!"
+		 echo "[*] Must choose an IRC client (irssi/hexchat) and a terminal multiplexer (tmux/terminator)"
+                 echo "[*] EX: ./kali-setup.sh -ex irssi terminator"
+                 exit 0
             fi ;;
+        -d) : ;;
         -*) echo "[*] Waldo Kali Linux Deluxe Setup Script!"
             echo "[*] Made special for my buddy Kawaxi to quickly setup his Kali Machine!!"
             echo "[*] Usage: $0 (-e)"
@@ -51,7 +68,12 @@ wait
 #change password
 echo "[*] Changing password"
 if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
-     CONDITION=Y
+     if [ "$DEFAULTS" == "Y" ] ; then
+          echo "[*] Leaving Default Password"
+          CONDITION=N
+     else
+          CONDITION=Y
+     fi
 else
      read -p "Continue? Y/n: " CONDITION;
 fi
@@ -68,10 +90,17 @@ else
      read -p "Continue and install? Y/n: " CONDITION;
 fi
 if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
-     read -p "[*] Change sleep time.  Enter 0 to never sleep: " sett;
-     settings set org.gnome.desktop.session idle-delay "$sett"
-     echo "[*] Disabling Lock Screen"
-     gsettings set org.gnome.desktop.screensaver lock-enabled false
+     if [ "$DEFAULTS" == "Y" ] ; then
+          echo "[*] Disabling Sleep"
+          gsettings set org.gnome.desktop.session idle-delay 0
+          echo "[*] Disabling Lock Screen"
+          gsettings set org.gnome.desktop.screensaver lock-enabled false
+     else
+          read -p "[*] Change sleep time.  Enter 0 to never sleep: " sett;
+          gsettings set org.gnome.desktop.session idle-delay "$sett"
+          echo "[*] Disabling Lock Screen"
+          gsettings set org.gnome.desktop.screensaver lock-enabled false
+     fi
 fi
 wait
 
@@ -79,7 +108,12 @@ wait
 #intall terminator
 echo "[*] Installing Terminator"
 if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
-     CONDITION=Y
+     if [ "$3" == "terminator" ]; then
+          CONDITION=Y
+     else
+          echo "[*] Skipping Terminator"
+          CONDITION=N
+     fi
 else
      read -p "Continue and install? Y/n: " CONDITION;
 fi
@@ -91,7 +125,12 @@ wait
 #setup tmux
 echo "[*] Setting up TMUX"
 if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
-     CONDITION=Y
+     if [ "$3" == "tmux" ]; then
+          CONDITION=Y
+     else
+          echo "[*] Skipping Tmux"
+          CONDITION=N
+     fi
 else
      read -p "Continue and install? Y/n: " CONDITION;
 fi
@@ -110,7 +149,8 @@ if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      if [ "$2" == "irssi" ]; then
           CONDITION=Y
      else
-          :
+          echo "[*] Skipping irssi"
+          CONDITION=N
      fi
 else
      read -p "Continue and install? Y/n: " CONDITION;
@@ -126,7 +166,8 @@ if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      if [ "$2" == "hexchat" ]; then
           CONDITION=Y
      else
-          :
+         echo "[*] Skipping hexchat"
+         CONDITION=N
      fi
 else
      read -p "Continue and install? Y/n: " CONDITION;
@@ -196,26 +237,55 @@ if [ -z "$CONDITION" ] || [ "$CONDITION" == Y ] || [ "$CONDITION" == y ]; then
      wait
      echo "[*] Enabling VSFTPD to run at start"
      update-rc.d vsftpd start
-     echo "[*] Create a new FTP User"
-     read -p "[*] Username?: " newuser;
-     useradd $newuser
-     echo "[*] Create a new password for $newuser"
-     passwd $newuser
-     mkdir /home/$newuser
-     chown -R $newuser:$newuser /home/$newuser
-     echo "[*] Creating /var/FTP"
-     mkdir /var/ftp
-     echo "[*] Binding newuser home directory to /var/ftp/$newuser"
-     mkdir /var/ftp/$newuser
-     mount --bind /home/$newuser/ /var/ftp/$newuser/
-     echo "[*] Setting home as /var/ftp/$newuser for user $newuser"
-     sudo usermod -d /var/ftp/$newuser/ $newuser
-     echo "[*] Getting VSFTPD Conf"
-     git clone https://github.com/waldo-irc/vsftpd-conf.git
-     mv vsftpd-conf/vsftpd.conf /etc/vsftpd.conf
-     wait
-     echo "[*] Cleaning up"
-     rm -R vsftpd-conf
+     if [ "$DEFAULTS" == "Y" ] ; then
+          echo "[*] Creating Default FTP Account"
+          useradd ftp
+          echo "[*] Creating default password for 'ftp'"
+          /usr/bin/expect<<EOF
+               spawn passwd ftp
+               expect "*?assword: "
+               send -- "ftp\r"
+               expect "*?assword: "
+               send -- "ftp\r"
+               expect eof
+EOF
+          mkdir /home/ftp
+          chown -R ftp:ftp /home/ftp
+          echo "[*] Creating /var/FTP"
+          mkdir /var/ftp
+          echo "[*] Binding newuser home directory to /var/ftp/$newuser"
+          mkdir /var/ftp/ftp
+          mount --bind /home/ftp/ /var/ftp/ftp/
+          echo "[*] Setting home as /var/ftp/$newuser for user $newuser"
+          sudo usermod -d /var/ftp/ftp/ ftp
+          echo "[*] Getting VSFTPD Conf"
+          git clone https://github.com/waldo-irc/vsftpd-conf.git
+          mv vsftpd-conf/vsftpd.conf /etc/vsftpd.conf
+          wait
+          echo "[*] Cleaning up"
+          rm -R vsftpd-conf
+     else
+          echo "[*] Create a new FTP User"
+          read -p "[*] Username?: " newuser;
+          useradd $newuser
+          echo "[*] Create a new password for $newuser"
+          passwd $newuser
+          mkdir /home/$newuser
+          chown -R $newuser:$newuser /home/$newuser
+          echo "[*] Creating /var/FTP"
+          mkdir /var/ftp
+          echo "[*] Binding newuser home directory to /var/ftp/$newuser"
+          mkdir /var/ftp/$newuser
+          mount --bind /home/$newuser/ /var/ftp/$newuser/
+          echo "[*] Setting home as /var/ftp/$newuser for user $newuser"
+          sudo usermod -d /var/ftp/$newuser/ $newuser
+          echo "[*] Getting VSFTPD Conf"
+          git clone https://github.com/waldo-irc/vsftpd-conf.git
+          mv vsftpd-conf/vsftpd.conf /etc/vsftpd.conf
+          wait
+          echo "[*] Cleaning up"
+          rm -R vsftpd-conf
+     fi
 fi
 wait
 
@@ -289,7 +359,7 @@ wait
 #install keyboard
 echo "[*] Installing Keyboard Settings"
 if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
-     CONDITION=Y
+     CONDITION=N
 else
      read -p "Change to Spanish Keyboard? Y/n: " CONDITION;
 fi
