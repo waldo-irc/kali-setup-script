@@ -34,7 +34,7 @@ echo "[*] Hold on to your horses!  I hear they have plenty in Mexico"
 
 #update
 echo "[*] Updating System! (I reccomend this boy, not doing this == MISTAKE)"
-if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
+if [ "$1" == "-e" ] ; then
      CONDITION=Y
 elif [ "$1" == "-ex" ] ; then
      echo "[*] Argument EX found, skipping update"
