@@ -4,8 +4,16 @@
 #Here we set up our options and arguments
 for arg; do
     case $arg in
-        -e) echo "[*] Express Run!" ;;
-        -ex) echo "[*] Express Run with no update!" ;;
+        -e) echo "[*] Express Run!" 
+            if [ -z "$2" ]; then
+                 echo "[*] Must choose an IRC client (irssi/hexchat)"
+                 echo "[*] EX: ./kali-setup.sh -e irssi"
+            fi ;;
+        -ex) echo "[*] Express Run with no update!" 
+            if [ -z "$2" ]; then
+                 echo "[*] Must choose an IRC client (irssi/hexchat)"
+                 echo "[*] EX: ./kali-setup.sh -ex irssi"
+            fi ;;
         -*) echo "[*] Waldo Kali Linux Deluxe Setup Script!"
             echo "[*] Made special for my buddy Kawaxi to quickly setup his Kali Machine!!"
             echo "[*] Usage: $0 (-e)"
@@ -26,7 +34,7 @@ echo "[*] Hold on to your horses!  I hear they have plenty in Mexico"
 
 #update
 echo "[*] Updating System! (I reccomend this boy, not doing this == MISTAKE)"
-if [ "$1" == "-e" ] ; then
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      CONDITION=Y
 elif [ "$1" == "-ex" ] ; then
      echo "[*] Argument EX found, skipping update"
@@ -42,7 +50,7 @@ wait
 
 #change password
 echo "[*] Changing password"
-if [ "$1" == "-e" ] ; then
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      CONDITION=Y
 else
      read -p "Continue? Y/n: " CONDITION;
@@ -54,7 +62,7 @@ wait
 
 #change lock
 echo "[*] Setting up lock screen"
-if [ "$1" == "-e" ] ; then
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      CONDITION=Y
 else
      read -p "Continue and install? Y/n: " CONDITION;
@@ -70,7 +78,7 @@ wait
 
 #intall terminator
 echo "[*] Installing Terminator"
-if [ "$1" == "-e" ] ; then
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      CONDITION=Y
 else
      read -p "Continue and install? Y/n: " CONDITION;
@@ -82,7 +90,7 @@ wait
 
 #setup tmux
 echo "[*] Setting up TMUX"
-if [ "$1" == "-e" ] ; then
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      CONDITION=Y
 else
      read -p "Continue and install? Y/n: " CONDITION;
@@ -98,8 +106,12 @@ wait
 
 #install irssi
 echo "[*] Installing irssi client"
-if [ "$1" == "-e" ] ; then
-     CONDITION=Y
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
+     if [ "$2" == "irssi" ]; then
+          CONDITION=Y
+     else
+          :
+     fi
 else
      read -p "Continue and install? Y/n: " CONDITION;
 fi
@@ -110,8 +122,12 @@ wait
 
 #install hexchat
 echo "[*] Installing HexChat"
-if [ "$1" == "-e" ] ; then
-     CONDITION=Y
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
+     if [ "$2" == "hexchat" ]; then
+          CONDITION=Y
+     else
+          :
+     fi
 else
      read -p "Continue and install? Y/n: " CONDITION;
 fi
@@ -122,7 +138,7 @@ wait
 
 #install Proxychains4
 echo "[*] Installing ProxyChains4 client"
-if [ "$1" == "-e" ] ; then
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      CONDITION=Y
 else
      read -p "Continue and install? Y/n: " CONDITION;
@@ -151,7 +167,7 @@ wait
 
 #setup apache
 echo "[*] Setting up apache server and grabbing LinEnum"
-if [ "$1" == "-e" ] ; then
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      CONDITION=Y
 else
      read -p "Continue and install? Y/n: " CONDITION;
@@ -170,7 +186,7 @@ wait
 
 #install vsftpd
 echo "[*] Setting up and installing VSFTPD"
-if [ "$1" == "-e" ] ; then
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      CONDITION=Y
 else
      read -p "Continue and install? Y/n: " CONDITION;
@@ -205,7 +221,7 @@ wait
 
 #configure TFTP
 echo "[*] Setting up and installing TFTP on port 69"
-if [ "$1" == "-e" ] ; then
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      CONDITION=Y
 else
      read -p "Continue and install? Y/n: " CONDITION;
@@ -226,7 +242,7 @@ wait
 
 #install Waldo Scripts
 echo "[*] Installing wenum and wsmb (You gotta tell me how you like this shit!  You better hit that goddamn Y)"
-if [ "$1" == "-e" ] ; then
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      CONDITION=Y
 else
      read -p "Continue and install? Y/n: " CONDITION;
@@ -253,7 +269,7 @@ wait
 
 #install dropbox
 echo "[*] Installing Dropbox"
-if [ "$1" == "-e" ] ; then
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      CONDITION=Y
 else
      read -p "Continue and install? Y/n: " CONDITION;
@@ -272,7 +288,7 @@ wait
 
 #install keyboard
 echo "[*] Installing Keyboard Settings"
-if [ "$1" == "-e" ] ; then
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      CONDITION=Y
 else
      read -p "Change to Spanish Keyboard? Y/n: " CONDITION;
@@ -289,7 +305,7 @@ wait
 
 #adding bookmark entries
 echo "[*] Setting up Bookmarks"
-if [ "$1" == "-e" ] ; then
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      CONDITION=Y
 else
      read -p "Continue and install? Y/n: " CONDITION;
@@ -320,7 +336,7 @@ wait
 #install firefox extensions
 echo "[*] Installing TamperData, EditCookies, and FoxyProxy"
 echo "[*] Make sure Firefox is closed before continuing!  Firefox will open to install each app, accept prompt and close (not restart) firefox to continue script."
-if [ "$1" == "-e" ] ; then
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      CONDITION=Y
 else
      read -p "Continue and install? Y/n: " CONDITION;
@@ -352,7 +368,7 @@ wait
 
 echo "[!!!!] Setup Completed!  Please reboot Kali to finish changes"
 #reboot
-if [ "$1" == "-e" ] ; then
+if [ "$1" == "-e" ] || [ "$1" == "-ex" ]; then
      CONDITION=Y
 else
      read -p "Reboot Now? Y/n: " CONDITION;
